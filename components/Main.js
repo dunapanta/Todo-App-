@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { TodosContext } from "../context/todo";
+import { TodosContext, TOGGLE_ALL } from "../context/todo";
 
 export const Main = () => {
   const [todosState, dispatch] = useContext(TodosContext);
@@ -16,10 +16,24 @@ export const Main = () => {
     return todosState.todos;
   };
   const visibleTodos = getVisibleTodos();
-  console.log("visibleTodos", visibleTodos);
+
+  const onToggleAllTodos = (event) => {
+    dispatch({ type: TOGGLE_ALL, payload: event.target.checked });
+  };
+
+  // if every todo is completed return true
+  const isAllTodosSelected = todosState.todos.every((todo) => todo.isCompleted);
 
   return (
     <section className={`main ${noTodosClass}`}>
+      <input
+        id="toggle-all"
+        className="toggle-all"
+        type="checkbox"
+        checked={isAllTodosSelected}
+        onChange={onToggleAllTodos}
+      />
+      <label htmlFor="toggle-all">Marcar todo como Completado</label>
       <ul className="todo-list">
         {visibleTodos.map((todo) => {
           return <li key={todo.id}>{todo.text}</li>;

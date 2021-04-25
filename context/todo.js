@@ -1,6 +1,7 @@
 import { createContext, useReducer } from "react";
 
 export const ADD_TASK = "ADD_TASK";
+export const TOGGLE_ALL = "TOGGLE_ALL";
 
 const initialState = {
   todos: [],
@@ -20,6 +21,17 @@ const reducer = (state, action) => {
         todos: [...state.todos, newTask],
       };
     }
+    case TOGGLE_ALL: {
+      const updatedTodos = state.todos.map((todo) => ({
+        ...todo,
+        isCompleted: action.payload,
+      }));
+      return {
+        ...state,
+        todos: updatedTodos,
+      };
+    }
+
     default:
       return state;
   }
