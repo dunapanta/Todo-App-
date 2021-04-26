@@ -2,6 +2,7 @@ import Head from "next/head";
 
 import Header from "../components/Header";
 import { Main } from "../components/Main";
+import { Footer } from "../components/Footer";
 import { TodosProvider } from "../context/todo";
 
 const Home = () => {
@@ -14,6 +15,7 @@ const Home = () => {
         </Head>
         <Header />
         <Main />
+        <Footer />
       </div>
     </TodosProvider>
   );

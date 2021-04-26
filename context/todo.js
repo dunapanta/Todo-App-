@@ -2,6 +2,7 @@ import { createContext, useReducer } from "react";
 
 export const ADD_TASK = "ADD_TASK";
 export const TOGGLE_ALL = "TOGGLE_ALL";
+export const CHANGE_FILTER = "CHANGE_FILTER";
 
 const initialState = {
   todos: [],
@@ -30,6 +31,12 @@ const reducer = (state, action) => {
         ...state,
         todos: updatedTodos,
       };
+    }
+    case CHANGE_FILTER: {
+        return{
+            ...state,
+            filter: action.payload
+        }
     }
 
     default:
