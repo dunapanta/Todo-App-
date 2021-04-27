@@ -3,6 +3,9 @@ import { createContext, useReducer } from "react";
 export const ADD_TASK = "ADD_TASK";
 export const TOGGLE_ALL = "TOGGLE_ALL";
 export const CHANGE_FILTER = "CHANGE_FILTER";
+export const CHANGE_TODO = "CHANGE_TODO";
+export const TOGGLE_TODO = "TOGGLE_TODO";
+export const REMOVE_TODO = "REMOVE_TODO";
 
 const initialState = {
   todos: [],
@@ -33,10 +36,49 @@ const reducer = (state, action) => {
       };
     }
     case CHANGE_FILTER: {
-        return{
-            ...state,
-            filter: action.payload
+      return {
+        ...state,
+        filter: action.payload,
+      };
+    }
+    case CHANGE_TODO: {
+      const updatedTodos = state.todos.map((todo) => {
+        if (todo.id === action.payload.id) {
+          return {
+            ...todo,
+            text: action.payload.text,
+          };
         }
+        return todo;
+      });
+      return {
+        ...state,
+        todos: updatedTodos,
+      };
+    }
+    case TOGGLE_TODO: {
+      const updatedTodos = state.todos.map((todo) => {
+        if (todo.id === action.payload) {
+          return {
+            ...todo,
+            isCompleted: !todo.isCompleted,
+          };
+        }
+        return todo;
+      });
+      return {
+        ...state,
+        todos: updatedTodos,
+      };
+    }
+    case REMOVE_TODO: {
+      const updatedTodos = state.todos.filter(
+        (todo) => todo.id !== action.payload
+      );
+      return {
+        ...state,
+        todos: updatedTodos,
+      };
     }
 
     default:
