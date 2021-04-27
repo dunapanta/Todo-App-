@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { enterCode, escCode } from "../helpers/keycodes";
 import {
   CHANGE_TODO,
@@ -10,8 +10,15 @@ import {
 const Todo = ({ todo, isEditing, setEditingId }) => {
   const [, dispatch] = useContext(TodosContext);
   const [editText, setEditText] = useState(todo.text);
+  const editInputEl = useRef(null);
   const editingClass = isEditing ? "editing" : "";
   const completedClass = todo.isCompleted ? "completed" : "";
+
+  useEffect(() => {
+    if (isEditing) {
+      editInputEl.current.focus();
+    }
+  }, [isEditing]);
 
   const setTodoInEditingMode = () => {
     setEditingId(todo.id);
@@ -63,6 +70,7 @@ const Todo = ({ todo, isEditing, setEditingId }) => {
       </div>
       {isEditing && (
         <input
+          ref={editInputEl}
           className="edit"
           value={editText}
           onChange={changeEditInput}
